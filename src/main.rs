@@ -1,3 +1,6 @@
+// TODO: some refactoring
+// TODO: split into libs
+
 #[macro_use]
 extern crate clap;
 
