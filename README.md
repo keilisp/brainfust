@@ -6,7 +6,7 @@ Simple brainf\*uck complier written in Rust using LLVM
 
 # Installation
 
-At first you need to setup LLVM usign ![this](https://crates.io/crates/llvm-sys) guide
+At first you need to setup LLVM usign [this](https://crates.io/crates/llvm-sys) guide
 
 Then clone the repo into your folder
 
