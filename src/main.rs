@@ -5,9 +5,10 @@
 extern crate clap;
 
 use clap::{App, Arg};
+use inkwell::context::Context;
+
 use inkwell::basic_block::BasicBlock;
 use inkwell::builder::Builder;
-use inkwell::context::Context;
 use inkwell::module::Linkage;
 use inkwell::targets::{
     CodeModel, FileType, InitializationConfig, RelocMode, Target, TargetMachine,
@@ -55,6 +56,8 @@ fn main() -> Result<(), String> {
 
     // Creating main function that return i32
     let i64_type = context.i64_type();
+    let i64_memory_size = i64_type.const_int(30_000, false);
+    let i64_element_size = i64_type.const_int(1, false);
     let i32_type = context.i32_type();
     let i8_type = context.i8_type();
     let i8_ptr_type = i8_type.ptr_type(AddressSpace::Generic);
@@ -74,15 +77,8 @@ fn main() -> Result<(), String> {
     let basic_block = context.append_basic_block(main_fn, "entry");
     builder.position_at_end(basic_block);
 
-    let i8_type = context.i8_type();
-    let i8_ptr_type = i8_type.ptr_type(AddressSpace::Generic);
-
     let data = builder.build_alloca(i8_ptr_type, "data");
     let ptr = builder.build_alloca(i8_ptr_type, "ptr");
-
-    let i64_type = context.i64_type();
-    let i64_memory_size = i64_type.const_int(30_000, false);
-    let i64_element_size = i64_type.const_int(1, false);
 
     let data_ptr = builder.build_call(
         calloc_fn,
